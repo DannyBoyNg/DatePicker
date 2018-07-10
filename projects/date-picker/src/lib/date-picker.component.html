@@ -1,0 +1,37 @@
+<div class="backdrop" (click)="clickOutsideDatePicker()">
+
+  <div class="noselect" id="datePicker" (click)="$event.stopPropagation()">
+    <div id="dayPicker"> 
+      <div class="header">
+        <span class="prev" (click)="dayPickerPrevMonth()">&#8249;</span>
+        <span class="label">{{monthNames[datePickerMonth-1]}} {{datePickerYear}}</span>
+        <span class="next" (click)="dayPickerNextMonth()">&#8250;</span>
+      </div>
+      <div id="monthview">
+        <div class="rowHeader">
+          <div class="cellHeader" *ngFor="let d of dayNames" title="{{d}}">{{d.charAt(0)}}</div>
+        </div>
+        <div class="row" *ngFor="let week of datesArray">
+          <div class="cell" *ngFor="let day of week.daysCollection" 
+            [ngClass]="{shaded:day.shaded,daySelected:+day.dayOfMonth === selectedDay && +day.month === selectedMonth && +day.year === selectedYear}"
+            (click)="selectDate(day.year,day.month,day.dayOfMonth)">{{day.dayOfMonth}}</div>
+        </div>
+      </div>
+    </div>
+    <div id="monthPicker"> 
+      <div class="header">
+        <span class="prev" (click)="monthPickerPrevYear()">&#8249;</span>
+        <span class="label">{{monthPickerYear}}</span>
+        <span class="next" (click)="monthPickerNextYear()">&#8250;</span>
+      </div>
+      <div class="monthCubes" 
+        *ngFor="let m of monthNamesShort; let i = index" 
+        [ngClass]="{monthSelected:(monthPickerMonth && monthPickerMonth-1 == i) && (monthPickerYear == year || monthPickerYear == datePickerYear)}"
+        (click)="selectMonth(monthPickerYear, i+1)">
+        {{m}}
+      </div>
+      <div id="today" (click)="reset()">Reset</div>
+    </div>
+  </div>
+
+</div>
