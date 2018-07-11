@@ -4,7 +4,7 @@
     <div id="dayPicker"> 
       <div class="header">
         <span class="prev" (click)="dayPickerPrevMonth()">&#8249;</span>
-        <span class="label">{{monthNames[datePickerMonth-1]}} {{datePickerYear}}</span>
+        <span class="label">{{monthNames![datePickerMonth!-1]}} {{datePickerYear}}</span>
         <span class="next" (click)="dayPickerNextMonth()">&#8250;</span>
       </div>
       <div id="monthview">

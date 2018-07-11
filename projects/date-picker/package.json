@@ -1,7 +1,7 @@
 {
   "name": "@dannyboyng/datepicker",
   "description": "An Angular library to display a datepicker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license" : "MIT",
   "keywords": [
     "date",

@@ -20,4 +20,8 @@ export interface Day {
 export interface DatePickerInstance {
   componentRef: ComponentRef<DatePickerComponent>;
   responseRef: Subject<any>;
+  dayNames: string[];
+  monthNames: string[];
+  monthNamesShort: string[];
+  preSelectDate?: Date;
 }

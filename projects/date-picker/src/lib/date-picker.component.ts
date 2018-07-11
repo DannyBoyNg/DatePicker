@@ -6,36 +6,36 @@ import { Subject } from 'rxjs';
   templateUrl: './date-picker.component.html',
   styleUrls: ['./date-picker.component.css'],
 })
-export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
+export class DatePickerComponent implements OnChanges, OnDestroy {
 
   // References
   responseRef: Subject<Date>|undefined;
   componentRef: ComponentRef<DatePickerComponent>|undefined;
   // Month picker
-  monthPickerYear!: number;
-  monthPickerMonth!: number;
+  monthPickerYear: number|undefined;
+  monthPickerMonth: number|undefined;
   // Date picker
-  datePickerYear!: number;
-  datePickerMonth!: number;
-  datePickerWeek!: number;
-  datePickerDay!: number;
+  datePickerYear: number|undefined;
+  datePickerMonth: number|undefined;
+  datePickerWeek: number|undefined;
+  datePickerDay: number|undefined;
   datesArray: Week[]|undefined;
   firstDay: Date|undefined;
   startingDay: number|undefined;
 
-  // Shared variables
-  dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  // Locale settings
+  dayNames: string[]|undefined;
+  monthNames: string[]|undefined;
+  monthNamesShort: string[]|undefined;
   // State variables
-  year: number = new Date().getFullYear();
-  month: number = new Date().getMonth() + 1;
-  week: number = this.getWeekNumber(new Date());
-  monthName: string = this.monthNames[this.month];
-  selectedYear: number = this.year;
-  selectedMonth: number = this.month;
-  selectedWeek: number = this.week;
-  selectedDay: number = new Date().getDate();
+  year: number|undefined;
+  month: number|undefined;
+  week: number|undefined;
+  monthName: string|undefined|undefined;
+  selectedYear: number|undefined;
+  selectedMonth: number|undefined;
+  selectedWeek: number|undefined;
+  selectedDay: number|undefined;
   navbarLabel: string|undefined;
 
   constructor() {}
@@ -49,17 +49,6 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   // Component Lifecycle hooks
-  ngOnInit() {
-    const d = new Date();
-    this.monthPickerYear = d.getFullYear();
-    this.monthPickerMonth = d.getMonth() + 1;
-    this.datePickerYear = d.getFullYear();
-    this.datePickerMonth = d.getMonth() + 1;
-    this.datePickerWeek = this.getWeekNumber(new Date());
-    this.datePickerDay = d.getDate();
-    this.getDates(this.datePickerYear, this.datePickerMonth);
-  }
-
   ngOnChanges (changes: {[propKey: string]: SimpleChange}) {
     if (changes['weekPickerMonth']) {
       const year = (changes['weekPickerYear']) ? changes['weekPickerYear'].currentValue : this.year;
@@ -77,6 +66,28 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
   init(instance: DatePickerInstance) {
     this.componentRef = instance.componentRef;
     this.responseRef = instance.responseRef;
+    this.dayNames = instance.dayNames;
+    this.monthNames = instance.monthNames;
+    this.monthNamesShort = instance.monthNamesShort;
+
+    const d = (instance.preSelectDate != null) ? instance.preSelectDate : new Date();
+    this.monthPickerYear = d.getFullYear();
+    this.monthPickerMonth = d.getMonth() + 1;
+    this.datePickerYear = d.getFullYear();
+    this.datePickerMonth = d.getMonth() + 1;
+    this.datePickerWeek = this.getWeekNumber(d);
+    this.datePickerDay = d.getDate();
+
+    this.year = d.getFullYear();
+    this.month = d.getMonth() + 1;
+    this.week = this.getWeekNumber(d);
+    this.selectedYear = this.year;
+    this.selectedMonth = this.month;
+    this.selectedWeek = this.week;
+    this.selectedDay = d.getDate();
+    this.monthName = this.monthNames[this.month];
+
+    this.getDates(this.datePickerYear, this.datePickerMonth);
   }
 
   // Component Logic
@@ -118,14 +129,14 @@ export class DatePickerComponent implements OnInit, OnChanges, OnDestroy {
     this.datePickerWeek = this.week;
     this.monthPickerYear = this.year;
     this.monthPickerMonth = this.month;
-    this.getDates(this.datePickerYear, this.datePickerMonth);
+    if (this.datePickerYear != null && this.datePickerMonth != null) {this.getDates(this.datePickerYear, this.datePickerMonth); }
   }
 
-  selectMonth(year: number, month: number): void {
+  selectMonth(year: number|undefined, month: number): void {
     this.datePickerYear = year;
     this.datePickerMonth = month;
     this.monthPickerMonth = month;
-    this.getDates(year, month);
+    if (year != null) {this.getDates(year, month); }
   }
 
   selectDate(year: number, month: number, day: number): void {
