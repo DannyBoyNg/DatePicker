@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { DatePickerComponent } from './date-picker.component';
-import { CommonModule } from '../../../../node_modules/@angular/common';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   declarations: [DatePickerComponent],
   exports: [DatePickerComponent],
   entryComponents: [DatePickerComponent]

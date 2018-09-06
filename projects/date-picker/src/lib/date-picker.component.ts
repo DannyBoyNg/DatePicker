@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, SimpleChange, OnDestroy, OnChanges, ComponentRef } from '@angular/core';
+import { Component, HostListener, SimpleChange, OnDestroy, OnChanges, ComponentRef } from '@angular/core';
 import { Week, Day, DatePickerInstance } from './date-picker.interfaces';
 import { Subject } from 'rxjs';
 
