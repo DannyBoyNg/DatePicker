@@ -42,8 +42,7 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
 
   @HostListener('document:keydown', ['$event'])
   keyPressed(e: KeyboardEvent) {
-    const key = e.which || e.keyCode || 0;
-    if (key === 27) {
+    if (e.key === 'Escape') {
       this.closeDatePicker();
     }
   }
@@ -166,14 +165,22 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
           if (i === 0) {
             const f = new Date(this.firstDay);
             f.setDate(f.getDate() - (this.startingDay - j));
-            const day: Day = {dayOfMonth: f.getDate().toString(), month: f.getMonth() + 1, year: (f.getMonth() === 0) ? f.getFullYear() - 1 : f.getFullYear()};
+            const day: Day = {
+              dayOfMonth: f.getDate().toString(),
+              month: f.getMonth() + 1,
+              year: (f.getMonth() === 0) ? f.getFullYear() - 1 : f.getFullYear()
+            };
             day.shaded = true;
             week.daysCollection.push(day);
           } else {
             const l = new Date(year, month, 0);
             l.setDate(l.getDate() + (j - this.getDayOfWeek(l)));
             const dayLabel: string = l.getDate().toString();
-            const day: Day = {dayOfMonth: dayLabel, month: l.getMonth() + 1, year: (l.getMonth() === 11) ? l.getFullYear() + 1 : l.getFullYear()};
+            const day: Day = {
+              dayOfMonth: dayLabel,
+              month: l.getMonth() + 1,
+              year: (l.getMonth() === 11) ? l.getFullYear() + 1 : l.getFullYear()
+            };
             day.shaded = true;
             week.daysCollection.push(day);
           }
