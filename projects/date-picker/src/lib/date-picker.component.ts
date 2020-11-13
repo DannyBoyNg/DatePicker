@@ -41,28 +41,30 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
   constructor() {}
 
   @HostListener('document:keydown', ['$event'])
-  keyPressed(e: KeyboardEvent) {
+  keyPressed(e: KeyboardEvent): void {
     if (e.key === 'Escape') {
       this.closeDatePicker();
     }
   }
 
   // Component Lifecycle hooks
-  ngOnChanges (changes: {[propKey: string]: SimpleChange}) {
-    if (changes['weekPickerMonth']) {
-      const year = (changes['weekPickerYear']) ? changes['weekPickerYear'].currentValue : this.year;
-      this.getDates(year, changes['weekPickerMonth'].currentValue);
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}): void {
+    const weekPickerMonth = 'weekPickerMonth';
+    const weekPickerYear = 'weekPickerYear';
+    if (changes[weekPickerMonth]) {
+      const year = (changes[weekPickerYear]) ? changes[weekPickerYear].currentValue : this.year;
+      this.getDates(year, changes[weekPickerMonth].currentValue);
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.responseRef != null) {
       this.responseRef.complete();
       this.responseRef.unsubscribe();
     }
   }
 
-  init(instance: DatePickerInstance) {
+  init(instance: DatePickerInstance): void {
     this.componentRef = instance.componentRef;
     this.responseRef = instance.responseRef;
     this.dayNames = instance.dayNames;
@@ -151,11 +153,11 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
     this.startingDay = this.getDayOfWeek(this.firstDay); // 0-6
     for (let i = 0; i < weeksInMonth; i++) {
       const weekNumber = this.getWeekNumber(new Date(year, month - 1, counter));
-      const week = {yearNumber: year, weekNumber: weekNumber, daysCollection: [] as Day[]};
+      const week = {yearNumber: year, weekNumber, daysCollection: [] as Day[]};
       for (let j = 0; j < 7; j++) {
         if (counter <= daysInMonth && (i > 0 || j >= this.startingDay)) {
           const dayLabel: string = counter.toString();
-          const day: Day = {dayOfMonth: dayLabel, month: month, year: year};
+          const day: Day = {dayOfMonth: dayLabel, month, year};
           if (this.isDateToday(year, month, counter)) {
             day.today = true;
           }
@@ -220,11 +222,11 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
     return (date.getDay() + 6) % 7; // 0-6. 0 is Monday instead of Sunday
   }
 
-  clickOutsideDatePicker() {
+  clickOutsideDatePicker(): void {
     this.closeDatePicker();
   }
 
-  closeDatePicker(response?: any) {
+  closeDatePicker(response?: any): void {
     if (response != null && this.responseRef != null) {
       this.responseRef.next(response);
       this.responseRef.complete();

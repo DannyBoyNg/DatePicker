@@ -13,8 +13,8 @@
     </div>
     <div class="row" *ngFor="let week of datesArray">
     <div class="cell" *ngFor="let day of week.daysCollection" 
-        [ngClass]="{shaded:day.shaded,daySelected:+day.dayOfMonth === selectedDay && +day.month === selectedMonth && +day.year === selectedYear}"
-        (click)="selectDate(day.year,day.month,day.dayOfMonth)">{{day.dayOfMonth}}</div>
+        [ngClass]="{shaded:day.shaded,daySelected:+day.dayOfMonth! === selectedDay && +day.month! === selectedMonth && +day.year! === selectedYear}"
+        (click)="selectDate(+day.year!, +day.month!, +day.dayOfMonth!)">{{day.dayOfMonth}}</div>
     </div>
   </div>
   </div>
@@ -26,7 +26,7 @@
     </div>
     <div class="monthCubes" 
       *ngFor="let m of monthNamesShort; let i = index" 
-      [ngClass]="{monthSelected:(monthPickerMonth && monthPickerMonth-1 == i) && (monthPickerYear == year || monthPickerYear == datePickerYear)}"
+      [ngClass]="{monthSelected:(monthPickerMonth != null && +monthPickerMonth - 1 == i) && (monthPickerYear == year || monthPickerYear == datePickerYear)}"
       (click)="selectMonth(monthPickerYear, i+1)">
       {{m}}
     </div>

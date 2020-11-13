@@ -21,18 +21,18 @@ export class DatePickerService {
     const componentRef = viewContainerRef.createComponent(factory);
     const responseRef = new Subject<Date>();
     const instance: DatePickerInstance = {
-      componentRef: componentRef,
-      responseRef: responseRef,
+      componentRef,
+      responseRef,
       dayNames: this.dayNames,
       monthNames: this.monthNames,
       monthNamesShort: this.monthNamesShort,
-      preSelectDate: preSelectDate
+      preSelectDate
     };
     componentRef.instance.init(instance);
     return responseRef.asObservable();
   }
 
-  setDayNames(dayNames: string[]) {
+  setDayNames(dayNames: string[]): void {
     if (!Array.isArray(dayNames) || dayNames.length !== 7) {
       throw new Error('DatePicker: dayNames array is not valid');
     }
@@ -44,7 +44,7 @@ export class DatePickerService {
     this.dayNames = dayNames;
   }
 
-  setMonthNames(monthNames: string[]) {
+  setMonthNames(monthNames: string[]): void {
     if (!Array.isArray(monthNames) || monthNames.length !== 12) {
       throw new Error('DatePicker: monthNames array is not valid');
     }
@@ -56,7 +56,7 @@ export class DatePickerService {
     this.monthNames = monthNames;
   }
 
-  setMonthNamesShort(monthNamesShort: string[]) {
+  setMonthNamesShort(monthNamesShort: string[]): void {
     if (!Array.isArray(monthNamesShort) || monthNamesShort.length !== 12) {
       throw new Error('DatePicker: monthNamesShort array is not valid');
     }
