@@ -5,10 +5,14 @@ import { DatePickerComponent } from './date-picker.component';
 
 
 @NgModule({
-  declarations: [DatePickerComponent],
+  declarations: [
+    DatePickerComponent
+  ],
   imports: [
     CommonModule
   ],
-  exports: [DatePickerComponent]
+  exports: [
+    DatePickerComponent
+  ]
 })
 export class DatePickerModule { }

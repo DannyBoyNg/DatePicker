@@ -24,4 +24,5 @@ export interface DatePickerInstance {
   monthNames: string[];
   monthNamesShort: string[];
   preSelectDate?: Date;
+  returnType: 'Date'|'ISO';
 }

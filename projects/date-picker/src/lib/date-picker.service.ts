@@ -1,4 +1,4 @@
-import { Injectable, Inject, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { DatePickerComponent } from './date-picker.component';
 import { DatePickerInstance } from './date-picker.interfaces';
@@ -8,17 +8,27 @@ import { DatePickerInstance } from './date-picker.interfaces';
 })
 export class DatePickerService {
 
-  dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  dayNames!: string[];
+  monthNames!: string[];
+  monthNamesShort!: string[];
+  returnType: 'Date'|'ISO' = 'Date';
 
-  constructor(
-    @Inject(ComponentFactoryResolver) private componentFactoryResolver: ComponentFactoryResolver
-  ) { }
+  constructor() {
+    this.setDefaultLanguage();
+  }
+
+  setDefaultLanguage() {
+    this.dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  }
+
+  setReturnType(returnType: 'Date'|'ISO') {
+    this.returnType = returnType;
+  }
 
   open(viewContainerRef: ViewContainerRef, preSelectDate?: Date): Observable<Date> {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(DatePickerComponent);
-    const componentRef = viewContainerRef.createComponent(factory);
+    const componentRef = viewContainerRef.createComponent(DatePickerComponent);
     const responseRef = new Subject<Date>();
     const instance: DatePickerInstance = {
       componentRef,
@@ -26,7 +36,8 @@ export class DatePickerService {
       dayNames: this.dayNames,
       monthNames: this.monthNames,
       monthNamesShort: this.monthNamesShort,
-      preSelectDate
+      preSelectDate,
+      returnType: this.returnType,
     };
     componentRef.instance.init(instance);
     return responseRef.asObservable();

@@ -37,6 +37,7 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
   selectedWeek: number|undefined;
   selectedDay: number|undefined;
   navbarLabel: string|undefined;
+  returnType: 'Date'|'ISO' = 'Date';
 
   constructor() {}
 
@@ -70,6 +71,7 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
     this.dayNames = instance.dayNames;
     this.monthNames = instance.monthNames;
     this.monthNamesShort = instance.monthNamesShort;
+    this.returnType = instance.returnType;
 
     const d = (instance.preSelectDate != null) ? instance.preSelectDate : new Date();
     this.monthPickerYear = d.getFullYear();
@@ -141,7 +143,11 @@ export class DatePickerComponent implements OnChanges, OnDestroy {
   }
 
   selectDate(year: number, month: number, day: number): void {
-    this.closeDatePicker(new Date(year, month - 1, day));
+    if (this.returnType === 'Date') {
+      this.closeDatePicker(new Date(Date.UTC(year, month - 1, day)));
+    } else if (this.returnType === 'ISO') {
+      this.closeDatePicker(`${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`);
+    }
   }
 
   getDates(year: number, month: number): void {

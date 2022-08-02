@@ -1,21 +1,21 @@
 {
   "name": "@dannyboyng/datepicker",
-  "description": "An Angular library to display a datepicker",
-  "version": "1.0.6",
+  "description": "An Angular library to display a simple datepicker",
+  "version": "14.0",
   "license" : "MIT",
   "keywords": [
     "date",
     "picker",
     "datepicker",
     "angular",
-    "angular 6+"
+    "angular 13+"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/DannyBoyNg/DatePicker.git"
   },
   "peerDependencies": {
-    "@angular/common": ">=6.0.0 <14.0.0",
-    "@angular/core": ">=6.0.0 <14.0.0"
+    "@angular/common": ">=13.0.0 <16.0.0",
+    "@angular/core": ">=13.0.0 <16.0.0"
   }
 }
